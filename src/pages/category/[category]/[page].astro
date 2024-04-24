@@ -1,0 +1,46 @@
+---
+import Layout from "@/layouts/Layout";
+import Hero from "@/components/Hero";
+import PostGrid from "@/components/PostGrid";
+import CategoryNav from "@/components/CategoryNav";
+
+import { getCategories, getPosts } from "src/utils/blog";
+import { sluglify, unsluglify } from "src/utils/sluglify";
+
+export async function getStaticPaths({ paginate }: any) {
+    
+    const categories = await getCategories()
+    const allPosts = await getPosts()
+
+    return categories.flatMap((category: string) => {
+        const categoryName = unsluglify(category!.toLowerCase())
+
+        const filteredPosts = allPosts.filter(
+            ( post ) => post.data.category.toLowerCase() === categoryName
+        )
+        return paginate(filteredPosts, {
+            params: {
+				category: sluglify(category.toLowerCase())
+			},
+            props: {
+                posts: filteredPosts
+            }
+        })
+    })
+}
+const params = Astro.params;
+const { posts } = Astro.props;
+
+const categoryName = posts[0]?.data.category
+---
+
+<Layout title={ categoryName } description="Description">
+    <Hero title={ categoryName } className='capitalize'>
+        <p class="text-sm text-secondary">
+			These posts are available for this category.
+		</p>
+    </Hero>
+    
+    <CategoryNav activeCategory={params.category}/>
+    <PostGrid posts={ posts }/>
+</Layout>

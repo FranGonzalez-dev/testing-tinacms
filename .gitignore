@@ -12,6 +12,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+tina-lock.json
 
 # environment variables
 .env
@@ -22,3 +23,5 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+node_modules

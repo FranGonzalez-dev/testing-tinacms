@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostCard from "@/components/PostCard";
+
+
+type Props = {
+    posts: CollectionEntry<'blog'>[]
+}
+
+const { posts } = Astro.props
+---
+
+<section class="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-2">
+    {posts.map((post) => (
+        <PostCard
+            id={post.id}
+            data={post.data}
+            slug={post.slug}
+        />
+    ))}
+</section>

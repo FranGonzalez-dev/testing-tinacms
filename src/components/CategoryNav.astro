@@ -1,0 +1,50 @@
+---
+import { getCategories } from "src/utils/blog";
+import CategoryItem from "@/components/CategoryItem";
+
+const categories = await getCategories()
+
+const { activeCategory } = Astro.props
+
+---
+
+<nav 
+    id="nav"
+    class="min-h-[50px] content-center bg-neutral-50 dark:bg-neutral-800 max-w-xl px-2 mx-1 md:mx-auto rounded-md sticky top-2 z-30 duration-300 transition mb-4"
+>
+    <ul class="flex justify-center items-center gap-x-4">
+
+        <CategoryItem/>
+
+        {categories.map((category: string) => (
+            <CategoryItem name={ category } activeCategory={ activeCategory }/>
+        ))}
+    </ul>
+</nav>
+
+
+
+
+
+<script>
+	let top = true;
+
+	const nav = document.getElementById('nav')
+
+	function scrollHander() {
+		
+		if (window.scrollY > 50) {
+			if(top) {
+				top = false;
+				nav?.classList.add('shadow-lg')
+			}
+		} else {
+			if(!top) {
+				top = true;
+				nav?.classList.remove('shadow-lg')
+			}
+		}
+	}
+
+	window.addEventListener('scroll', scrollHander)
+</script>

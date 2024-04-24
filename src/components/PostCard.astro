@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets'
+import FormattedDate from '@/components/FormattedDate';
+
+import ArrowIcon from "@/icons/ArrowIcon";
+
+const {
+    id,
+    data: {
+        title, description, pubDate, heroImage, category
+    },
+    slug
+} = Astro.props
+---
+
+<article 
+    class="group flex flex-col gap-y-2 bg-neutral-100 dark:bg-neutral-900  lg:px-3 lg:py-2  transition duration-300 rounded-md"
+    transition:name={`post ${ id } box`}
+>
+    <a 
+        href={`/blog/${ slug }`}
+        class="relative overflow-hidden rounded-md "		
+    >
+        <Image
+            src={ heroImage }
+            width={600}
+			height={200}
+            class='lg:hover:scale-105 transition-transform h-[200px] lg:h-[250px] w-full object-cover'
+            format='webp'
+            alt={`Cover image of ${ title }`}
+            transition:name={`post ${ id } image`}
+        />
+        <div class="absolute bottom-0 w-full px-3 py-4 flex justify-between bg-neutral-600/30 backdrop-blur-md saturate-200">
+            <p 
+                class="text-xs text-neutral-100 font-semibold"
+                transition:name={`post ${ id } category`}
+            >
+                { category }
+            </p>
+            <FormattedDate
+                className='text-xs text-neutral-100'
+                date={ pubDate } 
+                transition:name={`post ${ id } date`}
+            />
+        </div>
+    </a>
+
+    <div class="flex flex-col gap-y-2">
+        <a
+            href={`/blog/${ slug }`}
+            class="font-serif text-lg text-primary line-clamp-1"
+            transition:name={`post ${ id } title`}
+            aria-label={title}
+        >
+            { title }
+        </a>
+        <p class="text-xs text-secondary line-clamp-3">
+            { description }
+        </p>
+        <a 
+            href={`/blog/${ slug }`}
+            class="text-sm flex items-center gap-x-2 text-secondary md:hover:translate-x-2"
+        >
+            Read Post
+            <span class="group-hover:rotate-45 transition duration-300">
+                <ArrowIcon />
+            </span>
+        </a>
+    </div>
+</article>
